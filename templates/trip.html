@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="reading">
+  <article class="panel">
+    <img class="read-cover" src="{{ t.image_url if t.image_url else 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80' }}" alt="cover">
+    <h2 style="margin:14px 0 6px;">{{ t.title }}</h2>
+    <div class="mag-meta">
+      {{ t.country }}, {{ t.city }} · Автор: <a href="/profile/{{ t.author.id }}">{{ t.author.username }}</a> · {{ t.created_at.strftime("%Y-%m-%d") }}
+    </div>
+
+    <hr style="opacity:.15; margin:14px 0;">
+
+    <div class="story">{{ t.story }}</div>
+  </article>
+
+  <aside class="panel info-card">
+    <h3 style="margin:0 0 10px;">Детали поездки</h3>
+
+    <div class="info-row">
+      <div class="k">Бюджет</div>
+      <div><b>{{ t.budget }} ₽</b></div>
+    </div>
+
+    <div class="info-row">
+      <div class="k">Локация</div>
+      <div><b>{{ t.country }}, {{ t.city }}</b></div>
+    </div>
+
+    <div class="info-row">
+      <div class="k">Координаты</div>
+      <div>
+        {% if t.lat and t.lng %}
+          <b>{{ "%.5f"|format(t.lat) }}, {{ "%.5f"|format(t.lng) }}</b>
+        {% else %}
+          <span class="mag-meta">не указаны</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <div style="margin-top:12px;">
+      <div class="mag-meta" style="margin-bottom:6px;">Безопасность ({{ t.safety }}/5)</div>
+      <div class="scorebar"><span style="width: {{ (t.safety*20) }}%;"></span></div>
+
+      <div class="mag-meta" style="margin:10px 0 6px;">Транспорт ({{ t.transport }}/5)</div>
+      <div class="scorebar"><span style="width: {{ (t.transport*20) }}%;"></span></div>
+
+      <div class="mag-meta" style="margin:10px 0 6px;">Людность ({{ t.crowd }}/5)</div>
+      <div class="scorebar"><span style="width: {{ (t.crowd*20) }}%;"></span></div>
+
+      <div class="mag-meta" style="margin:10px 0 6px;">Зелень ({{ t.nature }}/5)</div>
+      <div class="scorebar"><span style="width: {{ (t.nature*20) }}%;"></span></div>
+    </div>
+
+    <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+      <a class="linkbtn" href="/explore">← Назад в ленту</a>
+      {% if current_user.is_authenticated %}
+        <a class="linkbtn" href="/create">+ Новая запись</a>
+      {% endif %}
+    </div>
+  </aside>
+</section>
+
+{% endblock %}

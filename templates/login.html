@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel" style="max-width: 560px;">
+  <h2 style="margin:0 0 10px;">Вход</h2>
+  <form method="POST">
+    <div style="margin-bottom:10px;">
+      <div class="mag-meta">Логин</div>
+      <input class="input" name="username" placeholder="например demo">
+    </div>
+    <div style="margin-bottom:14px;">
+      <div class="mag-meta">Пароль</div>
+      <input class="input" type="password" name="password" placeholder="например demo">
+    </div>
+    <button class="btnx btn-primaryx btn-full" type="submit">Войти</button>
+  </form>
+</section>
+
+{% endblock %}

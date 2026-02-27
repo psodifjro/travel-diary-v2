@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="top-strip">
+  <form class="searchbar" method="GET" action="/explore">
+    <input name="country" placeholder="Страна (например, Япония)" value="{{ country }}">
+    <input name="city" placeholder="Город (например, Токио)" value="{{ city }}">
+    <select name="sort">
+      <option value="new" {% if sort=='new' %}selected{% endif %}>Сначала новые</option>
+      <option value="budget" {% if sort=='budget' %}selected{% endif %}>Сначала дорогие</option>
+      <option value="safety" {% if sort=='safety' %}selected{% endif %}>По безопасности</option>
+    </select>
+    <button class="btnx btn-primaryx" type="submit">Найти</button>
+  </form>
+</div>
+
+<section class="panel">
+  <h3 style="margin:0 0 12px;">Лента путешествий</h3>
+  <div class="mag-list">
+    {% for t in trips %}
+      <div class="mag-item">
+        <img class="mag-cover" src="{{ t.image_url if t.image_url else 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80' }}" alt="cover">
+        <div class="mag-body">
+          <div class="mag-title">{{ t.title }}</div>
+          <div class="mag-meta">{{ t.country }}, {{ t.city }} · Автор: <a href="/profile/{{ t.author.id }}">{{ t.author.username }}</a></div>
+          <div class="mag-line">
+            <span class="badge">{{ t.budget }} ₽</span>
+            <span class="badge badge2">Safety: {{ t.safety }}/5</span>
+            <a class="linkbtn" href="/trip/{{ t.id }}">Открыть</a>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="mag-meta">Ничего не найдено. Попробуйте убрать фильтры.</div>
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock %}

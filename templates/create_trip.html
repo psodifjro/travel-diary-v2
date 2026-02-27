@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel">
+  <h2 style="margin:0 0 10px;">Новая запись о путешествии</h2>
+  <div class="mag-meta">Заполни основное — остальное можно оставить пустым.</div>
+
+  <form method="POST" style="margin-top:14px;">
+    <div class="formbox">
+      <div>
+        <div class="mag-meta">Название *</div>
+        <input class="input" name="title" required>
+      </div>
+      <div>
+        <div class="mag-meta">Фото (URL)</div>
+        <input class="input" name="image_url" placeholder="https://...">
+      </div>
+
+      <div>
+        <div class="mag-meta">Страна *</div>
+        <input class="input" name="country" required>
+      </div>
+      <div>
+        <div class="mag-meta">Город *</div>
+        <input class="input" name="city" required>
+      </div>
+
+      <div>
+        <div class="mag-meta">Бюджет (₽)</div>
+        <input class="input" name="budget" type="number" value="0">
+      </div>
+      <div>
+        <div class="mag-meta">Широта (lat) / Долгота (lng)</div>
+        <div style="display:flex; gap:10px;">
+          <input class="input" name="lat" placeholder="55.7558">
+          <input class="input" name="lng" placeholder="37.6173">
+        </div>
+      </div>
+
+      <div>
+        <div class="mag-meta">Безопасность (1–5)</div>
+        <input class="input" name="safety" type="number" min="1" max="5" value="3">
+      </div>
+      <div>
+        <div class="mag-meta">Транспорт (1–5)</div>
+        <input class="input" name="transport" type="number" min="1" max="5" value="3">
+      </div>
+
+      <div>
+        <div class="mag-meta">Людность (1–5)</div>
+        <input class="input" name="crowd" type="number" min="1" max="5" value="3">
+      </div>
+      <div>
+        <div class="mag-meta">Зелень (1–5)</div>
+        <input class="input" name="nature" type="number" min="1" max="5" value="3">
+      </div>
+    </div>
+
+    <div style="margin-top:12px;">
+      <div class="mag-meta">Текст путешествия *</div>
+      <textarea name="story" required></textarea>
+    </div>
+
+    <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+      <button class="btnx btn-primaryx" type="submit">Сохранить</button>
+      <a class="btnx btn-ghostx" href="/">Отмена</a>
+    </div>
+  </form>
+</section>
+
+{% endblock %}

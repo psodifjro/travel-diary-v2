@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="top-strip">
+  <div class="pill">✨ Сейчас в базе: <b>{{ total_trips }}</b> поездок · <b>{{ total_users }}</b> пользователей</div>
+  {% if current_user.is_authenticated %}
+    <div class="pill">👤 Мои поездки: <b>{{ my_trips }}</b></div>
+  {% endif %}
+</div>
+
+<div class="dash-grid">
+  <section class="panel">
+    <div class="stat-row">
+      <div class="stat">
+        <div class="k">Всего путешествий</div>
+        <div class="v">{{ total_trips }}</div>
+      </div>
+      <div class="stat">
+        <div class="k">Пользователей</div>
+        <div class="v">{{ total_users }}</div>
+      </div>
+      <div class="stat">
+        <div class="k">Текущий профиль</div>
+        <div class="v">{% if current_user.is_authenticated %}{{ current_user.username }}{% else %}гость{% endif %}</div>
+      </div>
+    </div>
+
+    <h3 style="margin:0 0 12px;">Свежие записи (журнал)</h3>
+
+    <div class="mag-list">
+      {% for t in latest %}
+        <div class="mag-item">
+          <img class="mag-cover" src="{{ t.image_url if t.image_url else 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80' }}" alt="cover">
+          <div class="mag-body">
+            <div class="mag-title">{{ t.title }}</div>
+            <div class="mag-meta">{{ t.country }}, {{ t.city }} · Автор: <a href="/profile/{{ t.author.id }}">{{ t.author.username }}</a></div>
+            <div class="mag-line">
+              <span class="badge">{{ t.budget }} ₽</span>
+              <span class="badge badge2">Safety: {{ t.safety }}/5</span>
+              <a class="linkbtn" href="/trip/{{ t.id }}">Открыть</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <aside class="panel">
+    <h3 style="margin:0 0 12px;">Вдохновение дня</h3>
+
+    {% if featured %}
+      <img class="read-cover" src="{{ featured.image_url if featured.image_url else 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80' }}" alt="featured">
+      <div style="margin-top:12px; font-weight:900;">{{ featured.title }}</div>
+      <div class="mag-meta">{{ featured.country }}, {{ featured.city }} · {{ featured.budget }} ₽</div>
+      <div class="mag-line">
+        <a class="linkbtn" href="/trip/{{ featured.id }}">Читать</a>
+        {% if not current_user.is_authenticated %}
+          <a class="linkbtn" href="/register">Зарегистрироваться</a>
+        {% endif %}
+      </div>
+    {% else %}
+      <div class="mag-meta">Пока нет путешествий — создайте первое!</div>
+      <div class="mag-line">
+        <a class="linkbtn" href="/create">Создать запись</a>
+      </div>
+    {% endif %}
+
+    <div class="sidebar-card" style="margin-top:14px;">
+      <div class="small">Почему координаты полезны?</div>
+      <div class="small" style="margin-top:8px;">
+        Можно фиксировать конкретные места (lat/lng), чтобы потом легко повторить маршрут или отметить точку на карте.
+      </div>
+    </div>
+  </aside>
+</div>
+
+{% endblock %}

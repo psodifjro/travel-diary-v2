@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Дневник путешественника</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@3/tsparticles.bundle.min.js"></script>
+  <link rel="stylesheet" href="/static/css/app.css">
+</head>
+
+<body>
+  <div id="particles"></div>
+
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <a class="brand" href="/">
+        <div class="logo">TD</div>
+        <div>
+          <div class="name">Дневник путешественника</div>
+          <div class="tag">личные маршруты и впечатления</div>
+        </div>
+      </a>
+
+      <div class="nav-group">
+        <a class="nav-linkx" href="/">
+          <span>🏠 Дашборд</span><span class="nav-mini">Home</span>
+        </a>
+        <a class="nav-linkx" href="/explore">
+          <span>🗺️ Путешествия</span><span class="nav-mini">Explore</span>
+        </a>
+
+        {% if current_user.is_authenticated %}
+          <a class="nav-linkx" href="/create">
+            <span>✍️ Записать</span><span class="nav-mini">New</span>
+          </a>
+          <a class="nav-linkx" href="/profile/{{ current_user.id }}">
+            <span>👤 Профиль</span><span class="nav-mini">{{ current_user.username }}</span>
+          </a>
+          <a class="nav-linkx" href="/logout">
+            <span>🚪 Выйти</span><span class="nav-mini">Logout</span>
+          </a>
+        {% else %}
+          <a class="nav-linkx" href="/login">
+            <span>🔐 Вход</span><span class="nav-mini">Login</span>
+          </a>
+          <a class="nav-linkx" href="/register">
+            <span>✨ Регистрация</span><span class="nav-mini">Join</span>
+          </a>
+        {% endif %}
+      </div>
+
+      <div class="sidebar-card">
+        <div class="small">Подсказка</div>
+        <div class="big">Записывай поездки сразу</div>
+        <div class="small" style="margin-top:8px;">
+          Добавь город, бюджет, координаты и оценки — получится красиво и полезно.
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for cat, msg in messages %}
+            <div class="alert alert-{{ cat }}">{{ msg }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
